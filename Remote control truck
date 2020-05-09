@@ -1,0 +1,235 @@
+#include <Servo.h>
+Servo servo01;
+Servo servo02;
+Servo servo03;
+Servo servo04;
+//---------------------------------------------
+int servo1Pos, servo2Pos, servo3Pos, servo4Pos;
+int speedDelay = 10;
+int dataIn; 
+int m = 0;
+//---------------------------------------------
+int RS = 10;
+int RT = 12;
+int LS = 11;
+int LT = 13;
+//---------------------------------------------
+void setup(){
+ servo01.attach(2);
+ servo02.attach(6);
+ servo03.attach(7);
+ servo04.attach(9);
+ delay(20);
+ Serial.begin(9600);
+//---------------------------------------------
+ servo1Pos = 60;
+ servo01.write(servo1Pos);
+ servo2Pos = 20;
+ servo02.write(servo2Pos);
+ servo3Pos = 20;
+ servo03.write(servo3Pos);
+ servo4Pos = 90;
+ servo04.write(servo4Pos);
+//---------------------------------------------
+ int i;
+ for (i = 10; i <= 13; i++){
+   pinMode(i, OUTPUT);
+ }
+//---------------------------------------------
+}
+void loop(){
+ if (Serial.available() > 0) {
+  dataIn = Serial.read();
+//---------------------------------------------
+ if (dataIn == 0) {
+  m = 0;
+ }
+ if (dataIn == 3) {
+  m = 3;
+ }
+ if (dataIn == 4) {
+  m = 4;
+ }
+ if (dataIn == 5) {
+  m = 5;
+ }
+ if (dataIn == 6) {
+  m = 6;
+ }
+ if (dataIn == 7) {
+  m = 7;
+ }
+ if (dataIn == 8) {
+  m = 8;
+ }
+//---------------------------------------------
+ if (dataIn == 11) {
+  m = 11;
+ }
+ if (dataIn == 12) {
+  m = 12;
+ }
+ if (dataIn == 13) {
+  m = 13;
+ }
+ if (dataIn == 14) {
+  m = 14;
+ }
+ if (dataIn == 15) {
+  m = 15;
+ }
+ if (dataIn == 16) {
+  m = 16;
+ }
+ if (dataIn == 17) {
+  m = 17;
+ }
+ if (dataIn == 18) {
+  m = 18;
+ }
+//---------------------------------------------
+ if (m == 0) {
+  stopMoving();
+ }
+ if (m == 3) {
+  moveLeftForward();
+ }
+ if (m == 4) {
+  moveForward();
+ }
+ if (m == 5) {
+  moveRightForward();
+ }
+ if (m == 6) {
+  moveLeftBackward();
+ }
+ if (m == 7) {
+  moveBackward();
+ }
+ if (m == 8) {
+  moveRightBackward();
+ }
+//---------------------------------------------
+ while (m == 11) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  ClawServo();
+ }
+ while (m == 12) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  ClawServo1();
+ }
+ while (m == 13) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  LeftServo();
+ }
+ while (m == 14) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  LeftServo2();
+ }
+ while (m == 15) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  RightServo();
+ }
+ while (m == 16) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  RightServo3();
+ }
+ while (m == 17) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  BaseServo();
+ }
+ while (m == 18) {
+ if (Serial.available() > 0) {
+  m = Serial.read();
+ }
+  BaseServo4();
+ }
+//---------------------------------------------
+ }
+}
+void ClawServo(){
+  servo01.write(servo1Pos);
+  servo1Pos++;
+  delay(speedDelay);
+}
+void ClawServo1(){
+  servo01.write(servo1Pos);
+  servo1Pos--;
+  delay(speedDelay);
+}
+void LeftServo(){
+  servo02.write(servo2Pos);
+  servo2Pos--;
+  delay(speedDelay);
+}
+void LeftServo2(){
+  servo02.write(servo2Pos);
+  servo2Pos++;
+  delay(speedDelay);
+}
+void RightServo(){
+  servo03.write(servo3Pos);
+  servo3Pos--;
+  delay(speedDelay);
+}
+void RightServo3(){
+  servo03.write(servo3Pos);
+  servo3Pos++;
+  delay(speedDelay);
+}
+void BaseServo(){
+  servo04.write(servo4Pos);
+  servo4Pos++;
+  delay(speedDelay);
+}
+void BaseServo4(){
+  servo04.write(servo4Pos);
+  servo4Pos--;
+  delay(speedDelay);
+}
+void moveLeftForward(){
+  digitalWrite(RT, HIGH);
+  digitalWrite(RS, HIGH);
+}
+void moveForward(){ 
+  digitalWrite(RT, HIGH);
+  digitalWrite(LT, HIGH);
+  digitalWrite(RS, HIGH);
+  digitalWrite(LS, HIGH);
+}
+void moveRightForward(){
+  digitalWrite(LT, HIGH);
+  digitalWrite(LS, HIGH);
+}
+void moveLeftBackward(){
+  digitalWrite(RT, LOW);
+  digitalWrite(RS, HIGH);
+}
+void moveBackward(){
+  digitalWrite(RT, LOW);
+  digitalWrite(LT, LOW);
+  digitalWrite(RS, HIGH);
+  digitalWrite(LS, HIGH);
+}
+void moveRightBackward(){
+  digitalWrite(LT, LOW);
+  digitalWrite(LS, HIGH);
+}
+void stopMoving(){
+  analogWrite(RS, 0);
+  analogWrite(LS, 0);
+}

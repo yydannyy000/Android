@@ -1,235 +1,235 @@
-#include <Servo.h>
-Servo servo01;
-Servo servo02;
-Servo servo03;
-Servo servo04;
+#include <Servo.h> //引用函式庫
+Servo servo01; //夾子馬達
+Servo servo02; //左側馬達
+Servo servo03; //右側馬達
+Servo servo04; //底座馬達
 //---------------------------------------------
-int servo1Pos, servo2Pos, servo3Pos, servo4Pos;
-int speedDelay = 10;
-int dataIn; 
-int m = 0;
+int servo1Pos, servo2Pos, servo3Pos, servo4Pos; //宣告當前位置
+int speedDelay = 10; //宣告速度延遲預設值
+int dataIn; //宣告變數
+int m = 0; //宣告變數為0
 //---------------------------------------------
-int RS = 10;
-int RT = 12;
-int LS = 11;
-int LT = 13;
+int RS = 10; //RightSpeed 右輪轉速
+int RT = 12; //RightTurn 右輪轉向
+int LS = 11; //LeftSpeed 左輪轉速
+int LT = 13; //LeftTurn 左輪轉向
 //---------------------------------------------
-void setup(){
- servo01.attach(2);
- servo02.attach(6);
- servo03.attach(7);
- servo04.attach(9);
- delay(20);
- Serial.begin(9600);
+void setup(){ //初始化
+ servo01.attach(2); //夾子輸出腳位為2
+ servo02.attach(6); //左側輸出腳位為6
+ servo03.attach(7); //右側輸出腳位為7
+ servo04.attach(9); //底座輸出腳位為9
+ delay(20); //延遲速度
+ Serial.begin(9600); //Arduino 鮑率值
 //---------------------------------------------
- servo1Pos = 60;
- servo01.write(servo1Pos);
- servo2Pos = 20;
- servo02.write(servo2Pos);
- servo3Pos = 20;
- servo03.write(servo3Pos);
- servo4Pos = 90;
- servo04.write(servo4Pos);
+ servo1Pos = 60; //夾子初始角度為60
+ servo01.write(servo1Pos); //將夾子初始角度寫入
+ servo2Pos = 20; //左側初始角度為20
+ servo02.write(servo2Pos); //將左側初始角度寫入
+ servo3Pos = 20; //右側初始角度為20
+ servo03.write(servo3Pos); //將右側初始角度寫入
+ servo4Pos = 90; //底座初始角度為90
+ servo04.write(servo4Pos); //將底座初始角度寫入
 //---------------------------------------------
- int i;
+ int i; //宣告變數
  for (i = 10; i <= 13; i++){
-   pinMode(i, OUTPUT);
+   pinMode(i, OUTPUT); //控制馬達轉向轉速的腳位為10、11、12、13
  }
 //---------------------------------------------
 }
-void loop(){
- if (Serial.available() > 0) {
-  dataIn = Serial.read();
+void loop(){ //循環執行
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  dataIn = Serial.read(); //使藍牙讀取dataIn數值
 //---------------------------------------------
- if (dataIn == 0) {
-  m = 0;
+ if (dataIn == 0) { //如果dataIn值為0
+  m = 0; //將變數m等於0，配合App inventor設置讓車子停止移動
  }
- if (dataIn == 3) {
-  m = 3;
+ if (dataIn == 3) { //如果dataIn值為3
+  m = 3; //將變數m等於3，配合App inventor設置讓車子往左前移動
  }
- if (dataIn == 4) {
-  m = 4;
+ if (dataIn == 4) { //如果dataIn值為4
+  m = 4; //將變數m等於4，配合App inventor設置讓車子往前移動
  }
- if (dataIn == 5) {
-  m = 5;
+ if (dataIn == 5) { //如果dataIn值為5
+  m = 5; //將變數m等於5，配合App inventor設置讓車子往右前移動
  }
- if (dataIn == 6) {
-  m = 6;
+ if (dataIn == 6) { //如果dataIn值為6
+  m = 6; //將變數m等於6，配合App inventor設置讓車子往左後移動
  }
- if (dataIn == 7) {
-  m = 7;
+ if (dataIn == 7) { //如果dataIn值為7
+  m = 7; //將變數m等於7，配合App inventor設置讓車子往後移動
  }
- if (dataIn == 8) {
-  m = 8;
- }
-//---------------------------------------------
- if (dataIn == 11) {
-  m = 11;
- }
- if (dataIn == 12) {
-  m = 12;
- }
- if (dataIn == 13) {
-  m = 13;
- }
- if (dataIn == 14) {
-  m = 14;
- }
- if (dataIn == 15) {
-  m = 15;
- }
- if (dataIn == 16) {
-  m = 16;
- }
- if (dataIn == 17) {
-  m = 17;
- }
- if (dataIn == 18) {
-  m = 18;
+ if (dataIn == 8) { //如果dataIn值為8
+  m = 8; //將變數m等於8，配合App inventor設置讓車子往右後移動
  }
 //---------------------------------------------
- if (m == 0) {
-  stopMoving();
+ if (dataIn == 11) { //如果dataIn值為11
+  m = 11; //將變數m等於11，配合App inventor設置讓夾子馬達部位開啟
  }
- if (m == 3) {
-  moveLeftForward();
+ if (dataIn == 12) { //如果dataIn值為12
+  m = 12; //將變數m等於12，配合App inventor設置讓夾子馬達部位關閉
  }
- if (m == 4) {
-  moveForward();
+ if (dataIn == 13) { //如果dataIn值為13
+  m = 13; //將變數m等於13，配合App inventor設置讓左側馬達部位上升
  }
- if (m == 5) {
-  moveRightForward();
+ if (dataIn == 14) { //如果dataIn值為14
+  m = 14; //將變數m等於14，配合App inventor設置讓左側馬達部位下降
  }
- if (m == 6) {
-  moveLeftBackward();
+ if (dataIn == 15) { //如果dataIn值為15
+  m = 15; //將變數m等於15，配合App inventor設置讓右側馬達部位伸展
  }
- if (m == 7) {
-  moveBackward();
+ if (dataIn == 16) { //如果dataIn值為16
+  m = 16; //將變數m等於16，配合App inventor設置讓右側馬達部位緊縮
  }
- if (m == 8) {
-  moveRightBackward();
+ if (dataIn == 17) { //如果dataIn值為17
+  m = 17; //將變數m等於17，配合App inventor設置讓底座馬達部位向左
  }
-//---------------------------------------------
- while (m == 11) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  ClawServo();
- }
- while (m == 12) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  ClawServo1();
- }
- while (m == 13) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  LeftServo();
- }
- while (m == 14) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  LeftServo2();
- }
- while (m == 15) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  RightServo();
- }
- while (m == 16) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  RightServo3();
- }
- while (m == 17) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  BaseServo();
- }
- while (m == 18) {
- if (Serial.available() > 0) {
-  m = Serial.read();
- }
-  BaseServo4();
+ if (dataIn == 18) { //如果dataIn值為18
+  m = 18; //將變數m等於18，配合App inventor設置讓底座馬達部位向右
  }
 //---------------------------------------------
+ if (m == 0) { //如果m等於0
+  stopMoving(); //呼叫副程式停止移動
+ }
+ if (m == 3) { //如果m等於3
+  moveLeftForward(); //呼叫副程式往左前移動
+ }
+ if (m == 4) { //如果m等於4
+  moveForward(); //呼叫副程式往前移動
+ }
+ if (m == 5) { //如果m等於5
+  moveRightForward(); //呼叫副程式往右前移動
+ }
+ if (m == 6) { //如果m等於6
+  moveLeftBackward(); //呼叫副程式往左後移動
+ }
+ if (m == 7) { //如果m等於7
+  moveBackward(); //呼叫副程式往後移動
+ }
+ if (m == 8) { //如果m等於8
+  moveRightBackward(); //呼叫副程式往右後移動
+ }
+//---------------------------------------------
+ while (m == 11) { //當m等於11
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  ClawServo(); //呼叫控制夾子馬達左側按鈕的副程式
+ }
+ while (m == 12) { //當m等於12
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  ClawServo1(); //呼叫控制夾子馬達右側按鈕的副程式
+ }
+ while (m == 13) { //當m等於13
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  LeftServo(); //呼叫控制左側馬達左側按鈕的副程式
+ }
+ while (m == 14) { //當m等於14
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  LeftServo2(); //呼叫控制左側馬達右側按鈕的副程式
+ }
+ while (m == 15) { //當m等於15
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  RightServo(); //呼叫控制右側馬達左側按鈕的副程式
+ }
+ while (m == 16) { //當m等於16
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  RightServo3(); //呼叫控制右側馬達右側按鈕的副程式
+ }
+ while (m == 17) { //當m等於17
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  BaseServo(); //呼叫控制底座馬達左側按鈕的副程式
+ }
+ while (m == 18) { //當m等於18
+ if (Serial.available() > 0) { //如果藍牙可用值大於0
+  m = Serial.read(); //使藍牙讀取m數值
+ }
+  BaseServo4(); //呼叫控制底座馬達右側按鈕的副程式
+ }
+//---------------------------------------------
  }
 }
-void ClawServo(){
-  servo01.write(servo1Pos);
-  servo1Pos++;
-  delay(speedDelay);
+void ClawServo(){ //控制夾子馬達左側按鈕的副程式
+  servo01.write(servo1Pos); //將夾子初始角度寫入
+  servo1Pos++; //將夾子角度增加
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void ClawServo1(){
-  servo01.write(servo1Pos);
-  servo1Pos--;
-  delay(speedDelay);
+void ClawServo1(){ //控制夾子馬達右側按鈕的副程式
+  servo01.write(servo1Pos); //將夾子初始角度寫入
+  servo1Pos--; //將夾子角度減少
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void LeftServo(){
-  servo02.write(servo2Pos);
-  servo2Pos--;
-  delay(speedDelay);
+void LeftServo(){ //控制左側馬達左側按鈕的副程式
+  servo02.write(servo2Pos); //將左側初始角度寫入
+  servo2Pos--; //將左側角度減少
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void LeftServo2(){
-  servo02.write(servo2Pos);
-  servo2Pos++;
-  delay(speedDelay);
+void LeftServo2(){ //控制左側馬達右側按鈕的副程式
+  servo02.write(servo2Pos); //將左側初始角度寫入
+  servo2Pos++; //將左側角度增加
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void RightServo(){
-  servo03.write(servo3Pos);
-  servo3Pos--;
-  delay(speedDelay);
+void RightServo(){ //控制右側馬達左側按鈕的副程式
+  servo03.write(servo3Pos); //將右側初始角度寫入
+  servo3Pos--; //將右側角度減少
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void RightServo3(){
-  servo03.write(servo3Pos);
-  servo3Pos++;
-  delay(speedDelay);
+void RightServo3(){ //控制右側馬達右側按鈕的副程式
+  servo03.write(servo3Pos); //將右側初始角度寫入
+  servo3Pos++; //將右側角度增加
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void BaseServo(){
-  servo04.write(servo4Pos);
-  servo4Pos++;
-  delay(speedDelay);
+void BaseServo(){  //控制底座馬達左側按鈕的副程式
+  servo04.write(servo4Pos); //將底座初始角度寫入
+  servo4Pos++; //將底座角度增加
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void BaseServo4(){
-  servo04.write(servo4Pos);
-  servo4Pos--;
-  delay(speedDelay);
+void BaseServo4(){ //控制底座馬達右側按鈕的副程式
+  servo04.write(servo4Pos); //將底座初始角度寫入
+  servo4Pos--; //將底座角度減少
+  delay(speedDelay); //將延遲速度預設值寫入
 }
-void moveLeftForward(){
-  digitalWrite(RT, HIGH);
-  digitalWrite(RS, HIGH);
+void moveLeftForward(){ //往左前移動的副程式
+  digitalWrite(RT, HIGH); //將右前輪轉向設為高電位
+  digitalWrite(RS, HIGH); //將右前輪轉速設為高電位
 }
-void moveForward(){ 
-  digitalWrite(RT, HIGH);
-  digitalWrite(LT, HIGH);
-  digitalWrite(RS, HIGH);
-  digitalWrite(LS, HIGH);
+void moveForward(){ //往前移動的副程式
+  digitalWrite(RT, HIGH); //將右前輪轉向設為高電位
+  digitalWrite(LT, HIGH); //將左前輪轉向設為高電位
+  digitalWrite(RS, HIGH); //將右前輪轉速設為高電位
+  digitalWrite(LS, HIGH); //將左前輪轉速設為高電位
 }
-void moveRightForward(){
-  digitalWrite(LT, HIGH);
-  digitalWrite(LS, HIGH);
+void moveRightForward(){ //往右前移動的副程式
+  digitalWrite(LT, HIGH); //將左前輪轉向設為高電位
+  digitalWrite(LS, HIGH); //將左前輪轉速設為高電位
 }
-void moveLeftBackward(){
-  digitalWrite(RT, LOW);
-  digitalWrite(RS, HIGH);
+void moveLeftBackward(){ //往左後移動的副程式
+  digitalWrite(RT, LOW); //將右前輪轉向設為低電位
+  digitalWrite(RS, HIGH); //將右前輪轉速設為高電位
 }
-void moveBackward(){
-  digitalWrite(RT, LOW);
-  digitalWrite(LT, LOW);
-  digitalWrite(RS, HIGH);
-  digitalWrite(LS, HIGH);
+void moveBackward(){ //往後移動的副程式
+  digitalWrite(RT, LOW); //將右前輪轉向設為低電位
+  digitalWrite(LT, LOW); //將左前輪轉向設為低電位
+  digitalWrite(RS, HIGH); //將右前輪轉速設為高電位
+  digitalWrite(LS, HIGH); //將左前輪轉速設為高電位
 }
-void moveRightBackward(){
-  digitalWrite(LT, LOW);
-  digitalWrite(LS, HIGH);
+void moveRightBackward(){ //往右後移動的副程式
+  digitalWrite(LT, LOW); //將左前輪轉向設為低電位
+  digitalWrite(LS, HIGH); //將左前輪轉速設為高電位
 }
-void stopMoving(){
-  analogWrite(RS, 0);
-  analogWrite(LS, 0);
+void stopMoving(){ //停止移動的副程式
+  analogWrite(RS, 0); //將右前輪轉速電壓設為0
+  analogWrite(LS, 0); //將左前輪轉速電壓設為0
 }
